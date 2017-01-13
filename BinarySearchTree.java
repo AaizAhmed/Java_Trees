@@ -1,6 +1,6 @@
 package Java_Trees;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("hiding")
 
 public class BinarySearchTree<T extends Comparable<? super T> > 
 {
@@ -11,6 +11,7 @@ public class BinarySearchTree<T extends Comparable<? super T> >
 	{	root = null;	}
 	
 	//--------------------------INTERNAL CLASS---------------------------------
+
 	private class BinaryNode<T> 
 	{
 		T data;
@@ -19,12 +20,10 @@ public class BinarySearchTree<T extends Comparable<? super T> >
 		
 		public BinaryNode(T data)
 		{
-			this.data = data;
-			leftNode = null;
-			rightNode = null;
+			this (data, null, null);
 		}
 
-		public BinaryNode(T data, BinaryNode left, BinaryNode right)
+		public BinaryNode(T data, BinaryNode<T> left, BinaryNode<T> right)
 		{
 			this.data = data;
 			leftNode = left;
@@ -101,7 +100,7 @@ public class BinarySearchTree<T extends Comparable<? super T> >
 	private BinaryNode<T> insert (T data, BinaryNode<T> node)
 	{
 		if ( node == null )
-		{	return new BinaryNode<T> (data, null, null);	}
+		{	return new BinaryNode<T> (data);	}
 		
 		int compareResult = data.compareTo(node.data);
 		
