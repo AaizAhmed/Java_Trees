@@ -52,10 +52,10 @@ public class BinarySearchTree<T extends Comparable<? super T> >
 	{	return contains(find, root);	}
 
 	public T findMin(T find)
-	{	return findMin(find, root).data;	} 
+	{	return findMin(root).data;	} 
 
 	public T findMax(T find)
-	{	return findMax(find, root).data;	} 
+	{	return findMax(root).data;	} 
 
 	public void insert(T data)
 	{	root = insert(data, root);	} 
@@ -78,24 +78,24 @@ public class BinarySearchTree<T extends Comparable<? super T> >
 			return true;	//Match
 	}
 	
-	private BinaryNode<T> findMin (T data, BinaryNode<T> node)
+	private BinaryNode<T> findMin (BinaryNode<T> node)
 	{
 		if (node == null)
 		{	return null;	}
 		else if (node.leftNode == null)
 		{	return node;	}
 		
-		return findMin(data, node.leftNode);
+		return findMin(node.leftNode);
 	}
 	
-	private BinaryNode<T> findMax (T data, BinaryNode<T> node)
+	private BinaryNode<T> findMax (BinaryNode<T> node)
 	{
 		if (node == null)
 		{	return null;	}
 		else if (node.rightNode == null)
 		{	return node;	}
 		
-		return findMax(data, node.rightNode);		
+		return findMax(node.rightNode);		
 	}
 	
 	private BinaryNode<T> insert (T data, BinaryNode<T> node)
@@ -123,8 +123,49 @@ public class BinarySearchTree<T extends Comparable<? super T> >
 	
 	private BinaryNode<T> remove (T data, BinaryNode<T> node)
 	{
-		return null;
+		if (node == null)
+		{	return node;	}
 		
+		int compareResult = data.compareTo(node.data);
+		
+		if (compareResult < 0 )
+		{
+			node.leftNode = remove(data, node.leftNode);
+		}
+		else if (compareResult > 0)
+		{
+			node.rightNode = remove(data, node.rightNode);
+		}
+		else if (node.leftNode != null && node.rightNode != null)
+		{
+			node.data = findMin(node.rightNode).data;
+			node.rightNode = remove(node.data, node.rightNode);
+		}
+		else
+		{	//Using using ternary operator, syntax==> X = (condition) ? if true do this : else do this;
+			node = (node.leftNode != null) ? node.leftNode : node.rightNode;	
+		}
+		
+		return node;		
+	}
+	
+	public void printTree () 
+	{
+		if (root == null) 
+		{
+			System.out.println("Empty Tree");
+		}
+		else printTree (root);
+	}
+
+	private void printTree(BinaryNode<T> root) {
+		
+		if (root != null)	//In-order traversal.
+		{
+			printTree (root.leftNode);
+			System.out.println(root.data);
+			printTree (root.rightNode);
+		}		
 	}
 	
 }
